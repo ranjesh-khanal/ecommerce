@@ -28,12 +28,13 @@
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form action="{{route('category.store')}}" method="POST">
+                        <form action="{{route('category.update', $category->id)}}" method="POST">
                             @csrf
+                            @method('PUT')
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Name</label>
-                                    <input type="text" class="form-control" name="name" value="{{old('name')}}" id="exampleInputEmail1"
+                                    <input type="text" class="form-control" name="name" value="{{$category->name}}" id="exampleInputEmail1"
                                         placeholder="Enter name">
                                         @if($errors->has('name'))
                                         <span class="text-danger">{{$errors->first('name')}}</span>
