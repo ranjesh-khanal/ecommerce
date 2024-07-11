@@ -211,7 +211,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="{{route('admin.dashboard')}}" class="nav-link active">
+            <a href="{{route('admin.dashboard')}}" class="nav-link @yield('dashboard')">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -219,7 +219,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{route('category.index')}}" class="nav-link">
+            <a href="{{route('category.index')}}" class="nav-link @yield('category')">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Category
@@ -227,7 +227,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{route('product.index')}}" class="nav-link">
+            <a href="{{route('product.index')}}" class="nav-link @yield('product')">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Product

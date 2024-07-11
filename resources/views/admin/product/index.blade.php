@@ -1,4 +1,5 @@
 @extends('layouts.admin.app')
+@section('product', 'active')
 @section('content')
 
 
@@ -54,14 +55,14 @@
                                                 <td>{{$product->price}}</td>
                                                 <td>
                                                     <div class="d-flex">
-                                                        {{-- <a href="{{route('product.edit', $product->id)}}" class="btn btn-primary mr-2">Edit</a>
+                                                        <a href="{{route('product.edit', $product->id)}}" class="btn btn-primary mr-2">Edit</a>
 
                                                         <form action="{{route('product.delete', $product->id)}}" method="POST" id="deleteForm">
                                                             @csrf
                                                             @method('DELETE')
                                                         </form>
                                                             <button type="button" class="btn btn-primary" onclick="document.getElementById('deleteForm').submit();">Delete</button>
-                                                    </div> --}}
+                                                    </div>
                                                 </td>
                                             </tr>
                                             @endforeach

@@ -1,4 +1,5 @@
 @extends('layouts.admin.app')
+@section('category', 'active')
 @section('content')
 
 
