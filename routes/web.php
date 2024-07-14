@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
  use App\Http\Controllers\Admin\DashboardController;
  use App\Http\Controllers\Admin\CategoryController;
  use App\Http\Controllers\Admin\ProductController;
- 
+ use App\Http\Controllers\FrontendController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -16,11 +17,8 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
+// Route::get('/' {FrontendController::class,'home'})->name('Frontend.Home');
+Route::get('/', [FrontendController::class, 'home'])->name('frontend.home');
 
 Route::get('admin/dashboard', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
 Route::get('admin/category', [CategoryController::class, 'index'])->name('category.index');

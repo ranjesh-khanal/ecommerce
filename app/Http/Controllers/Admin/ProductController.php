@@ -38,7 +38,7 @@ class ProductController extends Controller
         $input = $request->except('_token');
         $input['slug'] = Str::slug($request->name);
         if($request->hasFile('feature_image')){
-            $imageName = time() . '-' . $request->feature_image->getClientOriginalExtension();
+            $imageName = time() . '.' . $request->feature_image->getClientOriginalExtension();
             $input['feature_image'] = $imageName;
             if(!file_exists('images/products')){
                 mkdir('images/products', 0777, true);
@@ -71,7 +71,7 @@ class ProductController extends Controller
         $input = $request->except('_token');
         $input['slug'] = Str::slug($request->name);
         if($request->hasFile('feature_image')){
-            $imageName = time() . '-' . $request->feature_image->getClientOriginalExtension();
+            $imageName = time() . '.' . $request->feature_image->getClientOriginalExtension();
             $input['feature_image'] = $imageName;
             if(!file_exists('images/products')){
                 mkdir('images/products', 0777, true);
