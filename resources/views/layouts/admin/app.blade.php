@@ -234,6 +234,14 @@
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{{route('product.index')}}" class="nav-link @yield('product')">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Detail
+              </p>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
