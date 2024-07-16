@@ -235,10 +235,10 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{route('product.index')}}" class="nav-link @yield('product')">
+            <a href="{{route('banner.index')}}" class="nav-link @yield('banner')">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Detail
+                Banner
               </p>
             </a>
           </li>

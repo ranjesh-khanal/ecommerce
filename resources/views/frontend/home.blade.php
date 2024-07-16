@@ -4,13 +4,11 @@
         <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
         <div id="carouselExample" class="carousel slide">
             <div class="carousel-inner">
+                @foreach($banners as $banner)
                 <div class="carousel-item active">
-                    <img src="{{ asset('assets/frontend/images/product3.jpg') }}" class="d-block w-100" alt="...">
+                    <img src="{{ asset('images/banners/'.$banner->image) }}" class="d-block w-100" alt="...">
                 </div>
-                <div class="carousel-item">
-                    <img src="{{ asset('assets/frontend/images/product2.jpeg') }}" class="d-block w-100" alt="...">
-                </div>
-            
+               @endforeach
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
  use App\Http\Controllers\Admin\CategoryController;
  use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\Admin\BannerController;
 
 
 /*
@@ -37,3 +38,7 @@ Route::post('admin/product/create', [ProductController::class, 'store'])->name('
 Route::get('admin/product/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
 Route::put('admin/product/update/{id}', [ProductController::class, 'update'])->name('product.update');
 Route::delete('admin/product/delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
+
+Route::get('admin/banner', [BannerController::class, 'index'])->name('banner.index');
+Route::get('admin/banner/create', [BannerController::class, 'create'])->name('banner.create');
+Route::post('admin/banner/create', [BannerController::class, 'store'])->name('banner.store');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banner;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,9 @@ class FrontendController extends Controller
     public function home()
     {
         $products = Product::all();
-        return view('frontend.home',compact('products'));
+        $banners =Banner::all();
+        return view('frontend.home',compact('products', 'banners'));
+
     }
 
     public function detail($slug)
