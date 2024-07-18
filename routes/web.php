@@ -42,3 +42,7 @@ Route::delete('admin/product/delete/{id}', [ProductController::class, 'delete'])
 Route::get('admin/banner', [BannerController::class, 'index'])->name('banner.index');
 Route::get('admin/banner/create', [BannerController::class, 'create'])->name('banner.create');
 Route::post('admin/banner/create', [BannerController::class, 'store'])->name('banner.store');
+Route::get('admin/banner/edit/{id}', [BannerController::class, 'edit'])->name('banner.edit');
+Route::put('admin/banner/update/{id}', [BannerController::class, 'update'])->name('banner.update');
+Route::delete('admin/banner/delete/{id}', [BannerController::class, 'delete'])->name('banner.delete');
+

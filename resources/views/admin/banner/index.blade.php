@@ -48,13 +48,13 @@
                                               
                                                 <td>
                                                     <div class="d-flex">
-                                                        {{-- <a href="{{route('product.edit', $banner->id)}}" class="btn btn-primary mr-2">Edit</a> --}}
+                                                        <a href="{{route('banner.edit', $banner->id)}}" class="btn btn-primary mr-2">Edit</a>
 
-                                                        {{-- <form action="{{route('product.delete', $banner->id)}}" method="POST" id="deleteForm">
+                                                        <form action="{{route('banner.delete', $banner->id)}}" method="POST" id="deleteForm"> 
                                                             @csrf
                                                             @method('DELETE')
                                                         </form>
-                                                            <button type="button" class="btn btn-primary" onclick="document.getElementById('deleteForm').submit();">Delete</button> --}}
+                                                            <button type="button" class="btn btn-primary" onclick="document.getElementById('deleteForm').submit();">Delete</button>
                                                     </div>
                                                 </td>
                                             </tr>
