@@ -31,18 +31,33 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Link</a>
                     </li>
+                    {{-- <li class="nav-item">
+                        <a href="{{route('category.index')}}" class="nav-link @yield('category')">
+                          <i class="nav-icon fas fa-th"></i>
+                          <p>
+                            Category
+                          </p>
+                        </a>
+                      </li> --}}
+                      {{-- <li class="nav-item">
+                        <a href="{{route('product.index')}}" class="nav-link @yield('product')">
+                          <i class="nav-icon fas fa-th"></i>
+                          <p>
+                            Product
+                          </p>
+                        </a>
+                      </li> --}}
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown
+                            Category
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="{{route('frontend.productList', ['slug' => 'all'])}}" class="nav-link">All</a></li>
+                            @foreach($categories as $category)
+                            <li><a class="dropdown-item" href="{{route('frontend.productList', $category->slug)}}" class="nav-link">{{$category->name}}</a></li>
+                            @endforeach
                         </ul>
                     </li>
                 

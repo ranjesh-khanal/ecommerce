@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\BannerController;
 */
 Route::get('/', [FrontendController::class,'home'])->name('frontend.home');
 Route::get('/product-detail/{slug}', [FrontendController::class, 'detail'])->name('frontend.product_detail');
+Route::get('/products-by-category/{slug}', [FrontendController::class, 'productsByCategory'])->name('frontend.productList');
 
 
 
