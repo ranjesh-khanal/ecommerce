@@ -1,115 +1,72 @@
 <?php
 
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+namespace App\Http\Controllers\Admin;
 
-namespace ContactController
+use App\Http\Controllers\Controller;
+use App\Models\Contact;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+
+class ContactController extends Controller
 {
-    public class ContactController : Controller
+    public function index()
     {
-        // Simulated data store for contacts
-        private static List<Contact> contacts = new List<Contact>
-        {
-            new Contact { Id = 1, Name = "John Doe", Email = "john@example.com" },
-            new Contact { Id = 2, Name = "Jane Smith", Email = "jane@example.com" }
-        };
-
-        // GET: Contact
-        public IActionResult Index()
-        {
-            return View(contacts);
-        }
-
-        // GET: Contact/Details/5
-        public IActionResult Details(int id)
-        {
-            var contact = contacts.Find(c => c.Id == id);
-            if (contact == null)
-            {
-                return NotFound();
-            }
-            return View(contact);
-        }
-
-        // GET: Contact/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Contact/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(Contact contact)
-        {
-            if (ModelState.IsValid)
-            {
-                contacts.Add(contact);
-                return RedirectToAction(nameof(Index));
-            }
-            return View(contact);
-        }
-
-        // GET: Contact/Edit/5
-        public IActionResult Edit(int id)
-        {
-            var contact = contacts.Find(c => c.Id == id);
-            if (contact == null)
-            {
-                return NotFound();
-            }
-            return View(contact);
-        }
-
-        // POST: Contact/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Contact contact)
-        {
-            if (ModelState.IsValid)
-            {
-                var existingContact = contacts.Find(c => c.Id == id);
-                if (existingContact != null)
-                {
-                    existingContact.Name = contact.Name;
-                    existingContact.Email = contact.Email;
-                    return RedirectToAction(nameof(Index));
-                }
-                return NotFound();
-            }
-            return View(contact);
-        }
-
-        // GET: Contact/Delete/5
-        public IActionResult Delete(int id)
-        {
-            var contact = contacts.Find(c => c.Id == id);
-            if (contact == null)
-            {
-                return NotFound();
-            }
-            return View(contact);
-        }
-
-        // POST: Contact/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
-        {
-            var contact = contacts.Find(c => c.Id == id);
-            if (contact != null)
-            {
-                contacts.Remove(contact);
-                return RedirectToAction(nameof(Index));
-            }
-            return NotFound();
-        }
+        $contacts = Contact::paginate(10);
+        return view('admin.contact.index', compact('contacts'));
     }
 
-    public class Contact
+    public function create()
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
+        return view('admin.contact.create');
+    }
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'unique:contacts,name'],
+        ]);
+
+        if($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $input = $request->except('_token');
+        $input['slug'] = Str::slug($request->name);
+        Contact::create($input);
+
+        return redirect()->route('admin.contact.index');
+    }
+
+    public function edit($id)
+    {
+        $contact = Contact::findOrFail($id);
+        return view('admin.contact.edit', compact('contact'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'unique:contacts,name,' . $id],
+        ]);
+
+        if($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $contact = Contact::findOrFail($id);
+        $input = $request->except('_token');
+        $input['slug'] = Str::slug($request->name);
+        $contact->update($input);
+
+        return redirect()->route('admin.contact.index');
+    }
+
+    public function destroy($id)
+    {
+        $contact = Contact::findOrFail($id);
+        $contact->delete();
+
+        return redirect()->route('contact.index');
     }
 }
