@@ -17,42 +17,40 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="{{route('frontend.home')}}">Ecommerce</a>
+            {{-- <a class="navbar-brand" href="{{route('frontend.home')}}">Ecommerce</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-            </button>
+            </button> --}}
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{route('frontend.home')}}">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
                     {{-- <li class="nav-item">
-                        <a href="{{route('category.index')}}" class="nav-link @yield('category')">
-                          <i class="nav-icon fas fa-th"></i>
-                          <p>
-                            Category
-                          </p>
-                        </a>
-                      </li> --}}
-                      {{-- <li class="nav-item">
-                        <a href="{{route('product.index')}}" class="nav-link @yield('product')">
-                          <i class="nav-icon fas fa-th"></i>
-                          <p>
-                            Product
-                          </p>
-                        </a>
-                      </li> --}}
-
+                        <a class="nav-link" href="#">Link</a>
+                    </li> --}}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             Category
                         </a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Products
+                            </a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Services
+                                </a>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        Contact
+                                    </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="{{route('frontend.productList', ['slug' => 'all'])}}" class="nav-link">All</a></li>
                             @foreach($categories as $category)

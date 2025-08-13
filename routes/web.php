@@ -1,12 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
- use App\Http\Controllers\Admin\DashboardController;
- use App\Http\Controllers\Admin\CategoryController;
- use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\BannerController;
-
+use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\CheckoutController;
+use App\Http\Controllers\Frontend\OrderController;
+use App\Http\Controllers\Frontend\WishlistController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,32 +23,98 @@ use App\Http\Controllers\Admin\BannerController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', [FrontendController::class,'home'])->name('frontend.home');
-Route::get('/product-detail/{slug}', [FrontendController::class, 'detail'])->name('frontend.product_detail');
-Route::get('/products-by-category/{slug}', [FrontendController::class, 'productsByCategory'])->name('frontend.productList');
 
+// ==========================================
+// FRONTEND ROUTES
+// ==========================================
+Route::prefix('/')->group(function () {
+    
+    // Home & Static Pages
+    Route::get('/', [FrontendController::class, 'home'])->name('frontend.home');
+    Route::get('/about', [FrontendController::class, 'about'])->name('frontend.about');
+    Route::get('/contact', [FrontendController::class, 'contact'])->name('frontend.contact');
+    
+    // Product Routes
+    Route::get('/products', [FrontendController::class, 'products'])->name('frontend.products');
+    Route::get('/product/{slug}', [FrontendController::class, 'productDetail'])->name('frontend.product.detail');
+    Route::get('/category/{slug}', [FrontendController::class, 'categoryProducts'])->name('frontend.category.products');
+    
+    // Service Routes
+    Route::get('/services', [FrontendController::class, 'services'])->name('frontend.services');
+    Route::get('/service/{slug}', [FrontendController::class, 'serviceDetail'])->name('frontend.service.detail');
+    
+    // Cart Routes
+    Route::prefix('cart')->group(function () {
+        Route::get('/', [CartController::class, 'index'])->name('frontend.cart');
+        Route::post('/add', [CartController::class, 'add'])->name('frontend.cart.add');
+        Route::put('/update/{id}', [CartController::class, 'update'])->name('frontend.cart.update');
+        Route::delete('/remove/{id}', [CartController::class, 'remove'])->name('frontend.cart.remove');
+        Route::post('/clear', [CartController::class, 'clear'])->name('frontend.cart.clear');
+    });
+    
+    // Checkout Routes
+    Route::prefix('checkout')->middleware(['auth'])->group(function () {
+        Route::get('/', [CheckoutController::class, 'index'])->name('frontend.checkout');
+        Route::post('/process', [CheckoutController::class, 'process'])->name('frontend.checkout.process');
+        Route::get('/success', [CheckoutController::class, 'success'])->name('frontend.checkout.success');
+    });
+    
+    // Order Routes
+    Route::prefix('orders')->middleware(['auth'])->group(function () {
+        Route::get('/', [OrderController::class, 'index'])->name('frontend.orders');
+        Route::get('/{id}', [OrderController::class, 'show'])->name('frontend.order.show');
+        Route::get('/{id}/invoice', [OrderController::class, 'invoice'])->name('frontend.order.invoice');
+    });
+    
+    // Wishlist Routes
+    Route::prefix('wishlist')->middleware(['auth'])->group(function () {
+        Route::get('/', [WishlistController::class, 'index'])->name('frontend.wishlist');
+        Route::post('/add', [WishlistController::class, 'add'])->name('frontend.wishlist.add');
+        Route::delete('/remove/{id}', [WishlistController::class, 'remove'])->name('frontend.wishlist.remove');
+    });
+    
+    // Contact Form Routes
+    Route::get('/contact', [FrontendController::class, 'contact'])->name('frontend.contact');
+    Route::post('/contact', [FrontendController::class, 'contactStore'])->name('frontend.contact.store');
+});
 
+// ==========================================
+// ADMIN ROUTES
+// ==========================================
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
+    
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
+    
+    // Categories Resource
+    Route::resource('categories', CategoryController::class)->except(['show']);
+    
+    // Products Resource
+    Route::resource('products', ProductController::class)->except(['show']);
+    
+    // Banners Resource
+    Route::resource('banners', BannerController::class)->except(['show']);
+    
+    // Contacts Resource
+    Route::resource('contacts', ContactController::class)->except(['show']);
+    
+    // Orders Management
+    Route::prefix('orders')->group(function () {
+        Route::get('/', [AdminOrderController::class, 'index'])->name('admin.orders.index');
+        Route::get('/{id}', [AdminOrderController::class, 'show'])->name('admin.orders.show');
+        Route::put('/{id}/status', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.update-status');
+        Route::delete('/{id}', [AdminOrderController::class, 'destroy'])->name('admin.orders.destroy');
+    });
+});
 
+// ==========================================
+// AUTHENTICATION ROUTES
+// ==========================================
+require __DIR__.'/auth.php';
 
-
-Route::get('admin/dashboard', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
-Route::get('admin/category', [CategoryController::class, 'index'])->name('category.index');
-Route::get('admin/category/create', [CategoryController::class, 'create'])->name('category.create');
-Route::post('admin/category/create', [CategoryController::class, 'store'])->name('category.store');
-Route::get('admin/category/edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
-Route::put('admin/category/update/{id}', [CategoryController::class, 'update'])->name('category.update');
-Route::delete('admin/category/delete/{id}', [CategoryController::class, 'delete'])->name('category.delete');
-Route::get('admin/product', [ProductController::class, 'index'])->name('product.index');
-Route::get('admin/product/create', [ProductController::class, 'create'])->name('product.create');
-Route::post('admin/product/create', [ProductController::class, 'store'])->name('product.store');
-Route::get('admin/product/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
-Route::put('admin/product/update/{id}', [ProductController::class, 'update'])->name('product.update');
-Route::delete('admin/product/delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
-
-Route::get('admin/banner', [BannerController::class, 'index'])->name('banner.index');
-Route::get('admin/banner/create', [BannerController::class, 'create'])->name('banner.create');
-Route::post('admin/banner/create', [BannerController::class, 'store'])->name('banner.store');
-Route::get('admin/banner/edit/{id}', [BannerController::class, 'edit'])->name('banner.edit');
-Route::put('admin/banner/update/{id}', [BannerController::class, 'update'])->name('banner.update');
-Route::delete('admin/banner/delete/{id}', [BannerController::class, 'delete'])->name('banner.delete');
-
+// ==========================================
+// API ROUTES (if needed)
+// ==========================================
+Route::prefix('api')->middleware('auth:sanctum')->group(function () {
+    // API routes can be added here
+});
