@@ -40,9 +40,10 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @php $counter = ($categories->currentPage() - 1) * $categories->perPage() + 1; @endphp
                                             @foreach($categories as $category)
                                             <tr>
-                                                <td>{{++$id}}</td>
+                                                <td>{{$counter++}}</td>
                                                 <td>{{$category->name}}</td>
                                                 <td>
                                                    {{$category->slug}}
@@ -51,11 +52,11 @@
                                                     <div class="d-flex">
                                                         <a href="{{route('category.edit', $category->id)}}" class="btn btn-primary mr-2">Edit</a>
 
-                                                        <form action="{{route('category.delete', $category->id)}}" method="POST" id="deleteForm">
+                                                        <form action="{{route('category.delete', $category->id)}}" method="POST" id="deleteForm-{{$category->id}}">
                                                             @csrf
                                                             @method('DELETE')
+                                                            <button type="button" class="btn btn-danger" onclick="if(confirm('Are you sure you want to delete this category?')) { document.getElementById('deleteForm-{{$category->id}}').submit(); }">Delete</button>
                                                         </form>
-                                                            <button type="button" class="btn btn-primary" onclick="document.getElementById('deleteForm').submit();">Delete</button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -67,7 +68,7 @@
 
                                 <div class="card-footer clearfix">
                                     <ul class="pagination pagination-sm m-0 float-right">
-                                        {!! $categories->links() !!}
+                                        {{ $categories->links() }}
                                     </ul>
                                 </div>
                             </div>
